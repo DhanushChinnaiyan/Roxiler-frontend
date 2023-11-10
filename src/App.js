@@ -18,7 +18,7 @@ console.log(data)
 useEffect(()=>{
   productFetching(1,data.searchItem,data.selectedMonth)
   monthBasedDetailsFetching(data.selectedMonth)
-},[data.searchItem, data.selectedMonth, monthBasedDetailsFetching, productFetching])
+},[])
   
   return (
 
