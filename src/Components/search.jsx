@@ -5,15 +5,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import { context } from "../contextAPI";
 
 export const SearchBar = () => {
-  const { data, setData, productFetching ,monthBasedDetailsFetching} = useContext(context);
+  const { data, setData,monthRef, productFetching ,monthBasedDetailsFetching} = useContext(context);
   const handleSearch = () => {
     productFetching(1, data.searchItem,data.selectedMonth);
   };
 
   const monthHandleChange = (event) =>{
     setData((prev) => ({ ...prev, selectedMonth: event.target.value }));
-    productFetching(1, data.searchItem,event.target.value);
     monthBasedDetailsFetching(event.target.value)
+    window.scrollTo({ top: monthRef.current.offsetTop, behavior: 'smooth' })
 
 }
   const searchHandleChange = (event) =>

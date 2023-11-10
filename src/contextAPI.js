@@ -1,5 +1,5 @@
 // contextAPI.js
-import React, { createContext, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 
 export const context = createContext();
 
@@ -12,13 +12,19 @@ export const ContextProvider = ({ children }) => {
     staticksData: {},
     barChartData: {},
     pieChartData: {},
+    loading:false,
+    page:0
   });
-
+  const monthRef = useRef(null);
   // fetching products
-  const productFetching = async (page, search, month) => {
+  const productFetching = async (page, search) => {
     try {
+     setData((prev)=>({
+            ...prev,
+            loading:true
+        }))
       const response = await fetch(
-        `https://roxiler-backend-ashf.onrender.com/api/transactions?page=${page}&search=${search}&month=${month}`
+        `https://roxiler-backend-ashf.onrender.com/api/transactions?page=${page}&search=${search}`
       );
       const data = await response.json();
       if (data) {
@@ -26,6 +32,7 @@ export const ContextProvider = ({ children }) => {
           ...prev,
           products: data.products,
           noOfProducts: data.totalProductsCount,
+          loading:false
         }));
       }
     } catch (error) {
@@ -58,7 +65,8 @@ export const ContextProvider = ({ children }) => {
     data,
     setData,
     productFetching,
-    monthBasedDetailsFetching
+    monthBasedDetailsFetching,
+    monthRef
   };
 
   return <context.Provider value={value}>{children}</context.Provider>;

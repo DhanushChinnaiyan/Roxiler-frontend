@@ -6,12 +6,12 @@ import { context } from "../contextAPI";
 
 const StaticksComponent = () => {
 
-    const {data} = useContext(context)
+    const {data,monthRef} = useContext(context)
 
     const staticksData = data.staticksData
 
   return (
-    <div className="staticks">
+    <div className="staticks" ref={monthRef}>
         <Card sx={{ width:"calc(200px + 10vw)",display:"flex",justifyContent:"center" }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

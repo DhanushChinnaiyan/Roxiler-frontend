@@ -4,16 +4,22 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { context } from '../contextAPI';
 
 const TableComponent = () => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+   
+ 
   
     // Sample data
-    const {data,productFetching} = useContext(context)
+    const {data,setData,productFetching} = useContext(context)
   
     const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-      productFetching(newPage+1,data.searchItem,data.selectedMonth)
+       
+        setData((prev)=>({
+            ...prev,
+            page:newPage
+        }))
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      productFetching(newPage+1,data.searchItem)
     };
+    
   
 
   return (
@@ -22,18 +28,18 @@ const TableComponent = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Sold</TableCell>
-            <TableCell>Image</TableCell>
+            <TableCell style={{ minWidth: 10 }}>ID</TableCell>
+            <TableCell style={{ minWidth: "calc(10px + 10vw)"}}>Title</TableCell>
+            <TableCell style={{ minWidth: "calc(10px + 20vw)" }}>Description</TableCell>
+            <TableCell style={{ minWidth: 10 }}>Price</TableCell>
+            <TableCell style={{ minWidth: 10 }}> Category</TableCell>
+            <TableCell style={{ minWidth: 10 }}>Sold</TableCell>
+            <TableCell style={{ minWidth: 10 }}>Image</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.products.map((product) => (
-            <TableRow key={product.id} sx={{height:"calc(10px + 5vw)",overflow:"auto"}}>
+            <TableRow key={product.id}>
               <TableCell >{product.id}</TableCell>
               <TableCell>{product.title}</TableCell>
               <TableCell >{product.description}</TableCell>
@@ -47,13 +53,12 @@ const TableComponent = () => {
       </Table>
     </TableContainer>
     <TablePagination
-        rowsPerPageOptions={10}
+        rowsPerPageOptions={[10]}
         component="div"
         count={data.noOfProducts}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        rowsPerPage={10}
+        page={data.page}
         onPageChange={handleChangePage}
-        
       />
     </div>
   );
