@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useContext, useEffect } from "react";
+import "./App.css";
+import { context } from "./contextAPI";
+import { SearchBar } from "./Components/search";
+import TableComponent from "./Components/tabl";
+import StaticksComponent from "./Components/staticks";
+import PiechartComponent from "./Components/piechart";
+import BarChartComponent from "./Components/barchart";
+
 
 function App() {
+  const { data,productFetching,monthBasedDetailsFetching } = useContext(context);
+
+ 
+
+console.log(data)
+useEffect(()=>{
+  productFetching(1,data.searchItem,data.selectedMonth)
+  monthBasedDetailsFetching(data.selectedMonth)
+},[])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <div className="App">
+        <SearchBar/>
+        <TableComponent/>
+        <StaticksComponent/>
+        <PiechartComponent/>
+        <BarChartComponent/>
+      </div>
+
   );
 }
 
